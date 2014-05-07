@@ -1,88 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">Robot Maze</string>
-    <string name="hello_world">Enter a program and then click Run.</string>
-    <string name="menu_settings">Settings</string>
-    <string name="runButton_text">Run Program</string>
-    <string name="title_activity_selection">Robot Maze</string>
-    <string name="action_settings">Settings</string>
-    <string name="feedback_request">(tap one of the faces below)</string>
-    <string name="title_activity_more">More</string>
-    <string name="title_activity_enter_code">Enter Code</string>
-    <string name="title_activity_level_chooser">Select a Level</string>
-    <string name="level_complete_dlg_title">Level Complete</string>
-    <string name="level_start_dlg_title">Starting Level %1$d</string>
-    <string name="level_0_intro_text">Program your Robot to reach the power source using the arrow instructions!</string>
-    <string name="level_0_intro_image">nav_to_charge</string>
-    <string name="level_1_intro_text">Program with 3 instructions!</string>
-    <string name="level_1_intro_image">three_instr</string>
-    <string name="level_2_intro_text">Navigate a larger 4x4 grid!</string>
-    <string name="level_2_intro_image">four_by_four</string>
-    <string name="level_3_intro_text">Program with 4 instructions!</string>
-    <string name="level_3_intro_image">four_instr</string>
-    <string name="level_4_intro_text">Try a few more mazes; sometimes the solution requires creativity!</string>
-    <string name="level_4_intro_image">four_by_four</string>
-    <string name="level_5_intro_text">The Barrier Bomb! Use it to remove all of the barriers surrounding the robot\'s current square.</string>
-    <string name="level_5_intro_image">bomb</string>
-    <string name="about_title">About Robot Maze</string>
-    <string name="sparkistic_llc">Sparkistic, LLC</string>
-    <string name="eula_description">Robot Maze is provided AS-IS. By installing or using Robot Maze, you agree to the Sparkistic, LLC End-User License Agreement (EULA):</string>
-    <string name="eula_link"><![CDATA[<a href="http://www.sparkistic.com/eula">http://www.sparkistic.com/eula</a>]]></string>
-    <string name="game_credits">Robot Maze is brought to you by Sparkstic LLC!</string>
-    <string name="sound_credits_title">Sound</string>
-    <string name="graphics_credits_title">Graphics</string>
-    <string name="sound_credits">"Sounds are from the following artists on freesound.org: grunz, theta4, jobro, kastenfrosch, juskiddink, and bertrof. "</string>
-    <string name="ok_button">OK</string>
-    <string name="got_it">Got it!</string>
-    <string name="restart_level">Restart Level</string>
-    <string name="game_over">Game Over</string>
-    <string name="end_of_game_text">Why not have another go? I\'m sure you\'ll get it next time!</string>
-    <string name="next_base">Next Base!</string>
-    <string name="congrats">Congratulations!</string>
-    <string name="eula_title">Disclaimer</string>
-    <string name="main_menu">Return to Main Menu</string>
-    <string name="goto_feedback_screen">Go to Feedback Screen</string>
-    <string name="game_concept_title">Game Concept</string>
-    <string name="other_games_title">Other Games by Sparkistic</string>
-    <string name="game_concept_description">The concept for Robot Maze was based on puzzles by Erich Friedman. Used with permission. See more of Erich\'s puzzles at</string>
-    <string name="game_concept_url"><![CDATA[<a href="http://www2.stetson.edu/~efriedma/puzzle.html">Erich\'s Puzzle Palace</a>]]></string>
-    <string name="about_sparkistic_title">About Sparkistic LLC</string>
-    <string name="sparkistic_description">Sparkistic LLC is a small indie game dev company. We\'re currently working to bring unique games and math-focused apps to Android and WP8; Find us on Twitter @SparkisticLLC.</string>
-    <string name="academy_complete">Congratuations, you\'ve graduated from the Academy! The Alpha Space Station is now unlocked!</string>
-    <string name="more_levels_coming">Congrats, you\'re one of the few who\'ve made it this far! More add-on station packs will be available soon.</string>
-    <string name="end_of_alpha_leave_feedback">Hey, you\'re really smart to get this far! Give us some feedback and we\'ll unlock Gamma Station for you.</string>
-    <string name="tell_us_more">Tell us more!</string>
-    <string name="unlocking_gamma_station"><![CDATA[Unlocking Gamma Station <br />is as easy as 1-2-3!]]></string>
-    <string name="backstory">You are managing maintenance robots for a space station. One of your robots was damaged, and it is having trouble navigating its way back to recharge. Program your robot so it can find its way through the complex station corridors.</string>
-    <string name="robot_maze_title">Robot Maze</string>
-    <string name="five_hints_sku">com.sparkistic.robomaze.five_hints</string>
-    <string name="ten_hints_sku">com.sparkistic.robomaze.ten_hints_consumable</string>
-    <string name="blue_robot_sku">com.sparkistic.robomaze.blue_robot</string>
-    <string name="pink_robot_sku">com.sparkistic.robomaze.pink_robot</string>
-    <string name="orange_robot_sku">com.sparkistic.robomaze.orange_robot</string>
-    <string name="santa_robot_sku">com.sparkistic.robomaze.santa_robot</string>
+    <string name="app_name">Dynamic Game Services</string>
     <string name="gamehelper_sign_in_failed">Failed to sign in. Please check your network connection and try again.</string>
     <string name="gamehelper_app_misconfigured">The application is incorrectly configured. Check that the package name and signing certificate match the client ID created in Developer Console. Also, if the application is not yet published, check that the account you are trying to sign in with is listed as a tester account. See logs for more information.</string>
     <string name="gamehelper_license_failed">License check failed.</string>
     <string name="gamehelper_unknown_error">Unknown error.</string>
-    <string name="buy_hints_label">Buy Pack of 10 Hints</string>
-    <string name="buy_santa_label">Buy Santa Robot</string>
-    <string name="graphics_credits_steph">Battery graphic contributed by sdee*sign</string>
-    <string name="graphics_credits_yiu"><![CDATA[Settings icon by <a href="http://writecodeeasy.blogspot.com/2012/08/androidicon-gearsettings.html">Sherlock Yiu</a>]]></string>
-    <string name="audio_credits_title">Music and Sound Effects</string>
-    <string name="audio_credits_eternity"><![CDATA[Background music: <em>Eternity</em> and <em>Light Years</em> by <a href="http://stellardrone.bandcamp.com/">Stellardrone</a>; Jingle Bells from DJ Ben Larsson]]></string>
-    <string name="hint_balance_label">Current balance:</string>
-    <string name="hint_santa_label">Sale! Buy Santa get the other 3 robots FREE!</string>
-    <string name="robot_purchased">Robot Purchased</string>
-    <string name="level_complete">Level Complete!</string>
-    <string name="you_earned_a_hint">You earned a hint!</string>
-    <string name="ready_for_more">Ready for more?</string>
-    <string name="submit">SUBMIT</string>
-    <string name="quit">We were just getting started!</string>
-    <string name="really_quit">\nExit Robot Maze?\n</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="graduation_title">Graduation!</string>
-    <string name="alpha_complete_title">End of Alpha Station</string>
 </resources>

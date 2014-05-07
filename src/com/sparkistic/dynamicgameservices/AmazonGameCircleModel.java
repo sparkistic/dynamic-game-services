@@ -194,7 +194,7 @@ public class AmazonGameCircleModel implements GameServicesModel {
 
 	@Override
 	public void unlockAchievement(String achievementID, int count, int outOfHowMany) {
-		if (agsClient == null) {
+		if (agsClient == null || outOfHowMany == 0) {
 			// queuedAchievements.add(achievementID);
 		} else if (!AmazonGamesClient.isInitialized()) {
 			reinitialize();

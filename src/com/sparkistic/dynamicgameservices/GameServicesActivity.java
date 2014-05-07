@@ -10,7 +10,7 @@ public class GameServicesActivity extends Activity {
 	private GameServicesModel gameCircleModel = null;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		String manufacturer = Build.MANUFACTURER;
 		if (manufacturer.toUpperCase().equals("AMAZON")) {
 			gameCircleModel = new AmazonGameCircleModel();
@@ -53,7 +53,6 @@ public class GameServicesActivity extends Activity {
 			} catch (Throwable t) {
 			}
 		}
-
 	}
 
 	@Override
