@@ -1,28 +1,20 @@
 package com.sparkistic.dynamicgameservices;
 
-import java.util.UUID;
-
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESKeySpec;
-import javax.crypto.spec.SecretKeySpec;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
+import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings.Secure;
-import android.util.Base64;
+import android.view.LayoutInflater;
+import android.view.View;
 
 public class GameServicesActivity extends Activity {
 
 	private GameServicesModel gameCircleModel = null;
 	private GameServicesCrypto gameServicesCrypto = null;
 
+	@SuppressLint("DefaultLocale")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		String manufacturer = Build.MANUFACTURER;
@@ -148,5 +140,28 @@ public class GameServicesActivity extends Activity {
 		if (gameCircleModel != null) {
 			gameCircleModel.showLeaderboardOverlay(leaderboardId);
 		}
+	}
+	
+	@SuppressLint("DefaultLocale")
+	public void showSignInDialog() {
+		String manufacturer = Build.MANUFACTURER;
+		if (isConnected() || (manufacturer.toUpperCase().equals("AMAZON"))) {
+			return;
+		}
+		LayoutInflater inflater = getLayoutInflater();
+		View dialoglayout = inflater.inflate(R.layout.sign_in_dialog, null);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setView(dialoglayout);
+		com.google.android.gms.common.SignInButton dialogButton = (com.google.android.gms.common.SignInButton) dialoglayout.findViewById(R.id.sign_in_button);
+		final AlertDialog alertDialog = builder.create();
+		// if button is clicked, close the custom dialog`
+		dialogButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				signInToGame();
+				alertDialog.dismiss();
+			}
+		});
+		alertDialog.show();
 	}
 }

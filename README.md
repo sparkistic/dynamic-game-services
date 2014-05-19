@@ -49,7 +49,13 @@ There are a couple of extra files that are needed in your game project in order 
 ```
 Replace `000000000000` with your Google Play app id; replace `you_escaped_mordor` with your Amazon achievement/leaderboard id; and replace `CgtheAch1eveM3ntiD` with your Google Play achievement/leaderboard id. 
 
-**AndroidManifest.xml**: insert these tags as children of the `<application>` element in your manifest: 
+**AndroidManifest.xml**: you'll need internet permission in order to connect to the game services. Add these outside the `<application>` element:
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+```
+
+Also, insert these tags as children of the `<application>` element in your manifest: 
 ```xml
 <meta-data
    android:name="com.google.android.gms.version"
@@ -59,6 +65,13 @@ Replace `000000000000` with your Google Play app id; replace `you_escaped_mordor
    android:value="@string/app_id" />
 ```
 Note that the value above (4242000) changes when you upgrade GMS (Google Mobile Services) via the SDK manager. When this happens, you'll get an exception in your Logcat with the new number. Just replace the number and move along.
+
+Also inside the `<application>` element, you'll need to add some Amazon boilerplate for the overlay dialogs to work. Check out step 3 on the [Initializing GameCircle](https://developer.amazon.com/public/apis/engage/gamecircle/docs/initialize-android#Step%203.%20Update%20your%20AndroidManifest.xml%20File) page for that code.
+
+**api_key.txt**: this file needs to be placed in your assets folder. To generate the file follow these steps:
+  1. Go back to the [GameCircle Configuration](https://developer.amazon.com/gc/cfg/index.html) page, click on your app name, and then step 2, API Keys.
+  2. Click on the _Generate a new key_ button and then select _For Kindle / Android_.
+  3. Fill in a name for the key and your game's package name. It will ask you for the signature, this is the MD5 hash of your key found on the final dialog of the Export process. You can also extract the MD5 hash from the keystore using the instructions on the [GameCircle Configuration](https://developer.amazon.com/public/apis/engage/gamecircle/docs/create-a-gamecircle-configuration#Step%202:%20Generate%20API%20Keys) page.
 
 ## Working with the library
 
@@ -85,3 +98,4 @@ You will likely want to locally store whether the user has unlocked your achieve
 
 ## Known issues
 
+*   The internal Google Play services API needs to be updated to the new standard.

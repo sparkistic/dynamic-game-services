@@ -358,7 +358,7 @@ public class GameHelper implements GooglePlayServicesClient.ConnectionCallbacks,
                 debugLog("onStart: already connected (unusual, but ok).");
                 break;
             default:
-                String msg =  "onStart: BUG: unexpected state " + STATE_NAMES[mState];
+                //String msg =  "onStart: BUG: unexpected state " + STATE_NAMES[mState];
         }
     }
 
@@ -377,7 +377,7 @@ public class GameHelper implements GooglePlayServicesClient.ConnectionCallbacks,
                 debugLog("onStop: not connected, so no action taken.");
                 break;
             default:
-                String msg =  "onStop: BUG: unexpected state " + STATE_NAMES[mState];
+                //String msg =  "onStop: BUG: unexpected state " + STATE_NAMES[mState];
                 //throw new IllegalStateException(msg);
         }
 

@@ -3,15 +3,11 @@ package com.sparkistic.dynamicgameservices;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.android.gms.appstate.AppStateClient;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.games.GamesClient;
 import com.google.android.gms.plus.PlusClient;
 import com.sparkistic.dynamicgameservices.GameHelper.GameHelperListener;
