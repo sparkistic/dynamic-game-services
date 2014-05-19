@@ -85,7 +85,7 @@ To use the library, simply extend the `GameServicesActivity` instead of `Activit
 *   `void sendScoreToLeaderboard(String leaderboardId, long scoreValue)`: updates the score on the leaderboard with the given id (this should match the _name_ field in the ids.xml file). For example to send a score of 1000 to leaderboard above use `sendScoreToLeaderboard("main_leaderboard", 1000);`
 *   `void showLeaderboardOverlay(String leaderboardId)`: displays a modal which pauses your activity and overlays a dialog showing this leaderboard.
 *   `void showSignInDialog()`: this method displays a dialog that invites the user to sign into Google Play for game services (ignored for Kindle devices). Your onCreate() should call this method.
-*   `void signInToGame()`: initiates the sign-in process for Google Play. Use this method with a game controller button (see [Google Play Games Services Branding Guidelines](https://developers.google.com/games/services/branding-guidelines) for more information).
+*   `void signInToGame()`: initiates the sign-in process for Google Play. Use this method with a G+ button (see [Google Play Games Services Branding Guidelines](https://developers.google.com/games/services/branding-guidelines) for more information). The G+ selector and images for a G+ button are located in the **DGS Library**'s res->drawable folder; copy these to your game's res->drawable folder and create an `ImageButton` with the following attribute: `android:background="@drawable/gplus_button_selector"`.
 *   `boolean isConnected()`: returns whether the user is successfully connected to game services (use it to detect auto-sign-in).
 
 ### Crypto helper methods
