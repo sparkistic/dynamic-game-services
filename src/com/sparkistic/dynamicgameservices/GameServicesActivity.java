@@ -1,13 +1,27 @@
 package com.sparkistic.dynamicgameservices;
 
+import java.util.UUID;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
+import javax.crypto.spec.SecretKeySpec;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings.Secure;
+import android.util.Base64;
 
 public class GameServicesActivity extends Activity {
 
 	private GameServicesModel gameCircleModel = null;
+	private GameServicesCrypto gameServicesCrypto = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +31,7 @@ public class GameServicesActivity extends Activity {
 		} else {
 			gameCircleModel = new GoogleGameServicesModel(this);
 		}
+		gameServicesCrypto = new GameServicesCrypto(this);
 		super.onCreate(savedInstanceState);
 	}
 
@@ -92,5 +107,34 @@ public class GameServicesActivity extends Activity {
 			return gameCircleModel.isConnected();
 		}
 		return false;
+	}
+
+	public String getEncryptedValue(String uniqueKey, boolean value) {
+		return gameServicesCrypto.getEncryptedValue(uniqueKey, String.valueOf(value));
+	}
+
+	public String getEncryptedValue(String uniqueKey, int value) {
+		return gameServicesCrypto.getEncryptedValue(uniqueKey, String.valueOf(value));
+	}
+
+	public String getEncryptedValue(String uniqueKey, String value) {
+		return gameServicesCrypto.getEncryptedValue(uniqueKey, value);
+	}
+
+	public boolean getDecryptedBoolean(String uniqueKey, String value) {
+		return gameServicesCrypto.getDecryptedString(uniqueKey, value).equals("true");
+	}
+
+	public int getDecryptedInt(String uniqueKey, String value) {
+		int decryptedInt = 0;
+		try {
+			decryptedInt = Integer.parseInt(gameServicesCrypto.getDecryptedString(uniqueKey, value));
+		} catch (Throwable t) {
+		}
+		return decryptedInt;
+	}
+
+	public String getDecryptedString(String uniqueKey, String value) {
+		return gameServicesCrypto.getDecryptedString(uniqueKey, value);
 	}
 }
