@@ -71,7 +71,7 @@ Also inside the `<application>` element, you'll need to add some Amazon boilerpl
 **api_key.txt**: this file needs to be placed in your assets folder. To generate the file follow these steps:
   1. Go back to the [GameCircle Configuration](https://developer.amazon.com/gc/cfg/index.html) page, click on your app name, and then step 2, API Keys.
   2. Click on the _Generate a new key_ button and then select _For Kindle / Android_.
-  3. Fill in a name for the key and your game's package name. It will ask you for the signature, this is the MD5 hash of your key found on the final dialog of the Export process. You can also extract the MD5 hash from the keystore using the instructions on the [GameCircle Configuration](https://developer.amazon.com/public/apis/engage/gamecircle/docs/create-a-gamecircle-configuration#Step%202:%20Generate%20API%20Keys) page.
+  3. Fill in a name for the key and your game's package name. It will ask you for the signature, this is the MD5 hash of your key found on the final dialog of the Export process. You can also extract the MD5 hash from the keystore using the instructions on the [GameCircle Setup](https://developer.amazon.com/public/apis/engage/gamecircle/docs/create-a-gamecircle-configuration#Step%202:%20Generate%20API%20Keys) page.
 
 ## Working with the library
 
