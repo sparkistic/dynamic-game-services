@@ -46,4 +46,4 @@ There are a couple of extra files that are needed in your game project in order 
     <string name="you_escaped_mordor">CgtheAch1eveM3ntiD</string>
 </resources>
 ```
-Replace 000000000000 with your Google Play app id; replace you_escaped_mordor with your Amazon achievement/leaderboard id; and replace CgtheAch1eveM3ntiD with your Google Play achievement/leaderboard id. 
+Replace `000000000000` with your Google Play app id; replace `you_escaped_mordor` with your Amazon achievement/leaderboard id; and replace `CgtheAch1eveM3ntiD` with your Google Play achievement/leaderboard id. 
