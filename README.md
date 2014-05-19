@@ -67,7 +67,7 @@ To use the library, simply extend the `GameServicesActivity` instead of `Activit
 ### Game services methods
 
 *   `void unlockAchievement(String achievementId)`: unlocks the achievement with the given id (this should match the _name_ field in the ids.xml file). For example to unlock the achievement above use `unlockAchievement("you_escaped_mordor");` 
-*   `void unlockAchievement(String achievementId, int count, int outOfHowMany)`: unlocks an incremental achievement. For Amazon, the percentage complete is needed and thus calculated, but for Google Play only the count field is used.
+*   `void unlockAchievement(String achievementId, int count, int outOfHowMany)`: updates an incremental achievement. For Amazon, the percentage complete is needed and thus calculated, but for Google Play only the count field is used.
 *   `void showAchievementOverlay()`: displays a modal which pauses your activity and overlays a dialog showing the achievements earned by the player.
 *   `void sendScoreToLeaderboard(String leaderboardId, long scoreValue)`: updates the score on the leaderboard with the given id (this should match the _name_ field in the ids.xml file). For example to send a score of 1000 to leaderboard above use `sendScoreToLeaderboard("main_leaderboard", 1000);`
 *   `void showLeaderboardOverlay(String leaderboardId)`: displays a modal which pauses your activity and overlays a dialog showing this leaderboard.
@@ -82,4 +82,6 @@ You will likely want to locally store whether the user has unlocked your achieve
 *   `boolean getDecryptedBoolean(String uniqueKey, String value)`: returns the boolean previously encrypted as `value`. Note that if the value cannot be decrypted into a boolean, false is returned.
 *   `int getDecryptedInt(String uniqueKey, String value)`: returns the integer previously encrypted as `value`. Note that if the value cannot be decrypted into a integer, 0 is returned.
 *   `String getDecryptedString(String uniqueKey, String value)`: returns the string previously encrypted as `value`.
+
+## Known issues
 

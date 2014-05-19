@@ -366,20 +366,20 @@ public class GoogleGameServicesModel implements GameServicesModel, GameHelper.Ga
 	}
 
 	@Override
-	public void sendScoreToLeaderboard(String leadboardID, long scoreValue) {
+	public void sendScoreToLeaderboard(String leaderboardId, long scoreValue) {
 		try {
 			if (mHelper.getGamesClient().isConnected()) {
-				mHelper.getGamesClient().submitScore(leadboardID, scoreValue);
+				mHelper.getGamesClient().submitScore(leaderboardId, scoreValue);
 			}
 		} catch (Throwable t) {
 		}		
 	}
 
 	@Override
-	public void showLeaderboardOverlay(String leadboardID) {
+	public void showLeaderboardOverlay(String leaderboardId) {
 		try {
 			if (mHelper.getGamesClient().isConnected()) {
-				baseActivity.startActivityForResult(mHelper.getGamesClient().getLeaderboardIntent(leadboardID), 100);
+				baseActivity.startActivityForResult(mHelper.getGamesClient().getLeaderboardIntent(leaderboardId), 100);
 			}
 		} catch (Throwable t) {
 		}		

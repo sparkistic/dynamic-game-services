@@ -137,4 +137,16 @@ public class GameServicesActivity extends Activity {
 	public String getDecryptedString(String uniqueKey, String value) {
 		return gameServicesCrypto.getDecryptedString(uniqueKey, value);
 	}
+	
+	public void sendScoreToLeaderboard(String leaderboardId, long scoreValue) {
+		if (gameCircleModel != null) {
+			gameCircleModel.sendScoreToLeaderboard(leaderboardId, scoreValue);
+		}
+	}
+	
+	public void showLeaderboardOverlay(String leaderboardId) {
+		if (gameCircleModel != null) {
+			gameCircleModel.showLeaderboardOverlay(leaderboardId);
+		}
+	}
 }

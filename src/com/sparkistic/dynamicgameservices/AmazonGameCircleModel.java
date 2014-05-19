@@ -216,10 +216,10 @@ public class AmazonGameCircleModel implements GameServicesModel {
 	}
 
 	@Override
-	public void sendScoreToLeaderboard(String leadboardID, long scoreValue) {
+	public void sendScoreToLeaderboard(String leaderboardId, long scoreValue) {
 		if (agsClient != null) {
 			LeaderboardsClient lbClient = agsClient.getLeaderboardsClient();
-			AGResponseHandle<SubmitScoreResponse> handle = lbClient.submitScore(leadboardID, scoreValue);
+			AGResponseHandle<SubmitScoreResponse> handle = lbClient.submitScore(leaderboardId, scoreValue);
 
 			// Optional callback to receive notification of success/failure.
 			handle.setCallback(new AGResponseCallback<SubmitScoreResponse>() {
@@ -241,10 +241,10 @@ public class AmazonGameCircleModel implements GameServicesModel {
 	}
 
 	@Override
-	public void showLeaderboardOverlay(String leadboardID) {
+	public void showLeaderboardOverlay(String leaderboardId) {
 		if (agsClient != null) {
 			LeaderboardsClient lbClient = agsClient.getLeaderboardsClient();
-			lbClient.showLeaderboardsOverlay(leadboardID);
+			lbClient.showLeaderboardsOverlay(leaderboardId);
 		}
 	}
 }
