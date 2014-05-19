@@ -47,3 +47,20 @@ There are a couple of extra files that are needed in your game project in order 
 </resources>
 ```
 Replace `000000000000` with your Google Play app id; replace `you_escaped_mordor` with your Amazon achievement/leaderboard id; and replace `CgtheAch1eveM3ntiD` with your Google Play achievement/leaderboard id. 
+
+**AndroidManifest.xml**: insert these tags as children of the `<application>` element in your manifest: 
+```xml
+<meta-data
+   android:name="com.google.android.gms.version"
+   android:value="4242000" />
+<meta-data
+   android:name="com.google.android.gms.games.APP_ID"
+   android:value="@string/app_id" />
+```
+Note that the value above (4242000) changes when you upgrade GMS (Google Mobile Services) via the SDK manager. When this happens, you'll get an exception in your Logcat with the new number. Just replace the number and move along.
+
+## Working with the library
+
+To use the library, simply extend the `GameServicesActivity` instead of `Activity` in your activity that first loads. This will automatically do some of the setup work to initialize with Google Play or Amazon game services.
+
+
