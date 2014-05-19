@@ -348,7 +348,7 @@ public class GoogleGameServicesModel implements GameServicesModel, GameHelper.Ga
 			return;
 		}
 		if (mHelper.isSignedIn() && mHelper.getGamesClient().isConnected()) {
-			mHelper.getGamesClient().incrementAchievement(getStringResourceByName(achievementID), 1);
+			mHelper.getGamesClient().incrementAchievement(getStringResourceByName(achievementID), count);
 		}
 
 	}

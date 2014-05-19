@@ -44,6 +44,7 @@ There are a couple of extra files that are needed in your game project in order 
 <resources>
     <string name="app_id">000000000000</string>
     <string name="you_escaped_mordor">CgtheAch1eveM3ntiD</string>
+    <string name="main_leaderboard">CgtheLead3erBo4rdiD</string>
 </resources>
 ```
 Replace `000000000000` with your Google Play app id; replace `you_escaped_mordor` with your Amazon achievement/leaderboard id; and replace `CgtheAch1eveM3ntiD` with your Google Play achievement/leaderboard id. 
@@ -63,4 +64,22 @@ Note that the value above (4242000) changes when you upgrade GMS (Google Mobile 
 
 To use the library, simply extend the `GameServicesActivity` instead of `Activity` in your activity that first loads. This will automatically do some of the setup work to initialize with Google Play or Amazon game services.
 
+### Game services methods
+
+*   `void unlockAchievement(String achievementId)`: unlocks the achievement with the given id (this should match the _name_ field in the ids.xml file). For example to unlock the achievement above use `unlockAchievement("you_escaped_mordor");` 
+*   `void unlockAchievement(String achievementId, int count, int outOfHowMany)`: unlocks an incremental achievement. For Amazon, the percentage complete is needed and thus calculated, but for Google Play only the count field is used.
+*   `void showAchievementOverlay()`: displays a modal which pauses your activity and overlays a dialog showing the achievements earned by the player.
+*   `void sendScoreToLeaderboard(String leaderboardId, long scoreValue)`: updates the score on the leaderboard with the given id (this should match the _name_ field in the ids.xml file). For example to send a score of 1000 to leaderboard above use `sendScoreToLeaderboard("main_leaderboard", 1000);`
+*   `void showLeaderboardOverlay(String leaderboardId)`: displays a modal which pauses your activity and overlays a dialog showing this leaderboard.
+*   `void signInToGame()`: initiates the sign-in process for Google Play (should be used with a dialog on first startup).
+*   `boolean isConnected()`: returns whether the user is successfully connected to game services (use it to detect auto-sign-in).
+
+### Crypto helper methods
+
+You will likely want to locally store whether the user has unlocked your achievements and high scores for your player. One easy place to store these values is in SharedPreferences. However, a user with an rooted phone can easily edit this file and change their high score. Use these methods to encrypt and decrypt achievements and high scores. These methods use AES to encrypt based on the device's androidId and salted with your uniqueKey. Salting helps ensure values like "true" will be different among your different key/value pairs.
+
+*   `String getEncryptedValue(String uniqueKey, boolean value)`, `String getEncryptedValue(String uniqueKey, int value)`, `String getEncryptedValue(String uniqueKey, String value)`: encrypts the given value using the device's androidId and your uniqueKey. For best results, use a different uniqueKey for each stored value and something slightly different than the SharedPreferences key. For example, for the shared preference `highScore` use something like `String secretScore = getEncryptedValue("highScore" + "myGame", 1000);` you can then save the `secretScore` string as your shared preference for this value.
+*   `boolean getDecryptedBoolean(String uniqueKey, String value)`: returns the boolean previously encrypted as `value`. Note that if the value cannot be decrypted into a boolean, false is returned.
+*   `int getDecryptedInt(String uniqueKey, String value)`: returns the integer previously encrypted as `value`. Note that if the value cannot be decrypted into a integer, 0 is returned.
+*   `String getDecryptedString(String uniqueKey, String value)`: returns the string previously encrypted as `value`.
 
