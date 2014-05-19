@@ -37,7 +37,8 @@ There are a couple of external libraries you'll need to get things going.
 ## Extra files needed in your app
 
 There are a couple of extra files that are needed in your game project in order for all this to work.
-ids.xml
+
+**ids.xml**
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
