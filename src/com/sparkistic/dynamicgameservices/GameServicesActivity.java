@@ -70,30 +70,54 @@ public class GameServicesActivity extends Activity {
 		super.onPause();
 	}
 
-	public void unlockAchievement(String achievementID) {
+	/**
+	 * Unlocks the achievement with the given ID.
+	 * 
+	 * @param achievementId  the name of the achievement in the ids.xml file (this should correspond to the Amazon ID)
+	 *  
+	 */
+	public void unlockAchievement(String achievementId) {
 		if (gameCircleModel != null) {
-			gameCircleModel.unlockAchievement(achievementID);
+			gameCircleModel.unlockAchievement(achievementId);
+		}
+	}
+	/**
+	 * Updates an incremental achievements with the given ID.
+	 * 
+	 * @param achievementId  the name of the achievement in the ids.xml file (this should correspond to the Amazon ID)
+	 * @param count  the number of steps to increment this achievement
+	 * @param outOfHowMany  the total number of steps required to unlock this achievement (unused to Google)
+	 *  
+	 */
+	public void unlockAchievement(String achievementId, int count, int outOfHowMany) {
+		if (gameCircleModel != null) {
+			gameCircleModel.unlockAchievement(achievementId, count, outOfHowMany);
 		}
 	}
 
-	public void unlockAchievement(String achievementID, int count, int outOfHowMany) {
-		if (gameCircleModel != null) {
-			gameCircleModel.unlockAchievement(achievementID, count, outOfHowMany);
-		}
-	}
-
+	/**
+	 * Shows the achievement modal overlay.
+	 */
 	public void showAchievementOverlay() {
 		if (gameCircleModel != null) {
 			gameCircleModel.showAchievementOverlay();
 		}
 	}
 
+	/** 
+	 * Signs into the game services engine.
+	 */
 	public void signInToGame() {
 		if (gameCircleModel != null) {
 			gameCircleModel.signIn();
 		}
 	}
 
+	/**
+	 * Returns whether the system is registered with the online game services engine.
+	 * 
+	 * @return true if connected
+	 */
 	public boolean isConnected() {
 		if (gameCircleModel != null) {
 			return gameCircleModel.isConnected();
@@ -101,22 +125,57 @@ public class GameServicesActivity extends Activity {
 		return false;
 	}
 
+	/** 
+	 * Encrypts the given value with the given key used as salt along with the user's unique device ID.
+	 * 
+	 * @param uniqueKey  salt used with this encryption to ensure each encryption is unique
+	 * @param value  the value to encrypt
+	 * @return a string with the encrypted value
+	 */
 	public String getEncryptedValue(String uniqueKey, boolean value) {
 		return gameServicesCrypto.getEncryptedValue(uniqueKey, String.valueOf(value));
 	}
 
+	/** 
+	 * Encrypts the given value with the given key used as salt along with the user's unique device ID.
+	 * 
+	 * @param uniqueKey  salt used with this encryption to ensure each encryption is unique
+	 * @param value  the value to encrypt
+	 * @return a string with the encrypted value
+	 */
 	public String getEncryptedValue(String uniqueKey, int value) {
 		return gameServicesCrypto.getEncryptedValue(uniqueKey, String.valueOf(value));
 	}
 
+	/** 
+	 * Encrypts the given value with the given key used as salt along with the user's unique device ID.
+	 * 
+	 * @param uniqueKey  salt used with this encryption to ensure each encryption is unique
+	 * @param value  the value to encrypt
+	 * @return a string with the encrypted value
+	 */
 	public String getEncryptedValue(String uniqueKey, String value) {
 		return gameServicesCrypto.getEncryptedValue(uniqueKey, value);
 	}
 
-	public boolean getDecryptedBoolean(String uniqueKey, String value) {
+	/**
+	 * Decrypts the given value using the given key as salt along with the user's unique device ID.
+	 * 
+	 * @param uniqueKey  salt used with this encryption to ensure each encryption is unique
+	 * @param value  the value to decrypt
+	 * @return a boolean with the decrypted value (note that if the decrypted value cannot be converted to a boolean, false is returned)
+	 */
+	public boolean getDecryptedBoolean(String uniqueKey,  String value) {
 		return gameServicesCrypto.getDecryptedString(uniqueKey, value).equals("true");
 	}
 
+	/**
+	 * Decrypts the given value using the given key as salt along with the user's unique device ID.
+	 * 
+	 * @param uniqueKey  salt used with this encryption to ensure each encryption is unique
+	 * @param value  the value to decrypt
+	 * @return a boolean with the decrypted value (note that if the decrypted value cannot be converted to an int, 0 is returned)
+	 */
 	public int getDecryptedInt(String uniqueKey, String value) {
 		int decryptedInt = 0;
 		try {
@@ -126,22 +185,41 @@ public class GameServicesActivity extends Activity {
 		return decryptedInt;
 	}
 
+	/**
+	 * Decrypts the given value using the given key as salt along with the user's unique device ID.
+	 * 
+	 * @param uniqueKey  salt used with this encryption to ensure each encryption is unique
+	 * @param value  the value to decrypt
+	 * @return a boolean with the decrypted value
+	 */
 	public String getDecryptedString(String uniqueKey, String value) {
 		return gameServicesCrypto.getDecryptedString(uniqueKey, value);
 	}
 	
+	/**
+	 * Sends the score to the game services leaderboard for posting.
+	 * 
+	 * @param leaderboardId  the name of the leaderboard in the ids.xml file
+	 * @param scoreValue  the score to send to the leaderboard
+	 */
 	public void sendScoreToLeaderboard(String leaderboardId, long scoreValue) {
 		if (gameCircleModel != null) {
 			gameCircleModel.sendScoreToLeaderboard(leaderboardId, scoreValue);
 		}
 	}
 	
+	/**
+	 * Shows the leaderboard modal overlay.
+	 */
 	public void showLeaderboardOverlay(String leaderboardId) {
 		if (gameCircleModel != null) {
 			gameCircleModel.showLeaderboardOverlay(leaderboardId);
 		}
 	}
 	
+	/**
+	 * Shows a sign-in dialog for Google game services (not required for Amazon).
+	 */
 	@SuppressLint("DefaultLocale")
 	public void showSignInDialog() {
 		String manufacturer = Build.MANUFACTURER;
