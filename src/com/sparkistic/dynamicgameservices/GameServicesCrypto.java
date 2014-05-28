@@ -87,7 +87,6 @@ public class GameServicesCrypto {
 	public String getEncryptedValue(String uniqueKey, String value) {
 		String encryptedValue = "";
 		byte[] secretKey = getSecretKey(uniqueKey);
-		System.out.println(new String(secretKey));
 
 		try {
 			byte[] decryptedBytes = value.getBytes("UTF-8");
@@ -104,7 +103,6 @@ public class GameServicesCrypto {
 	public String getDecryptedString(String uniqueKey, String value) {
 		String decodedValue = "";
 		byte[] secretKey = getSecretKey(uniqueKey);
-		System.out.println(new String(secretKey));
 		try {
 			byte[] encryptedBytes = Base64.decode(value);
 			SecretKeySpec skeySpec = new SecretKeySpec(secretKey, "AES");
