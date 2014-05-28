@@ -1,11 +1,12 @@
 package com.sparkistic.dynamicgameservices;
 
-import java.security.SecureRandom;
+import java.security.spec.KeySpec;
 import java.util.UUID;
 
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import android.annotation.SuppressLint;
@@ -28,31 +29,29 @@ public class GameServicesCrypto {
 		byte[] key = null;
 
 		if (androidId != null && androidId.length() > 0) {
-			androidId += uniqueKey;
-			key = generateSecretKey(androidId);
+			key = generateSecretKey(androidId, uniqueKey);
 		}
 
 		if (key == null) {
 			if (isSecretKeySaved()) {
-				key = generateSecretKey(getStoredSecretKey() + uniqueKey);
+				key = generateSecretKey(getStoredSecretKey(), uniqueKey);
 			} else {
-				key = generateSecretKey(encryptRandomUUID() + uniqueKey);
+				key = generateSecretKey(encryptRandomUUID(), uniqueKey);
 			}
 		}
 		return key;
 	}
 
 	@SuppressLint("TrulyRandom")
-	private byte[] generateSecretKey(String randomSeed) {
+	private byte[] generateSecretKey(String password, String salt) {
 		byte[] key = null;
-		byte[] keyStart = randomSeed.getBytes();
+		byte[] passSalt = salt.getBytes();
 		try {
-			KeyGenerator kgen = KeyGenerator.getInstance("AES");
-			SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-			sr.setSeed(keyStart);
-			kgen.init(128, sr); // 192 and 256 bits may not be available
-			SecretKey skey = kgen.generateKey();
-			key = skey.getEncoded();
+			KeySpec keySpec = new PBEKeySpec(password.toCharArray(), passSalt, 1000, 128);
+			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+			byte[] keyBytes = keyFactory.generateSecret(keySpec).getEncoded();
+			SecretKey secretKey = new SecretKeySpec(keyBytes, "AES");
+			key = secretKey.getEncoded();
 		} catch (Exception ex) {
 
 		}
@@ -88,8 +87,10 @@ public class GameServicesCrypto {
 	public String getEncryptedValue(String uniqueKey, String value) {
 		String encryptedValue = "";
 		byte[] secretKey = getSecretKey(uniqueKey);
+		System.out.println(new String(secretKey));
+
 		try {
-			byte[] decryptedBytes = value.getBytes("UTF8");
+			byte[] decryptedBytes = value.getBytes("UTF-8");
 			SecretKeySpec skeySpec = new SecretKeySpec(secretKey, "AES");
 			Cipher cipher = Cipher.getInstance("AES");
 			cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
@@ -103,16 +104,16 @@ public class GameServicesCrypto {
 	public String getDecryptedString(String uniqueKey, String value) {
 		String decodedValue = "";
 		byte[] secretKey = getSecretKey(uniqueKey);
+		System.out.println(new String(secretKey));
 		try {
 			byte[] encryptedBytes = Base64.decode(value);
 			SecretKeySpec skeySpec = new SecretKeySpec(secretKey, "AES");
 			Cipher cipher = Cipher.getInstance("AES");
 			cipher.init(Cipher.DECRYPT_MODE, skeySpec);
-			decodedValue = new String(cipher.doFinal(encryptedBytes), "UTF8");
+			decodedValue = new String(cipher.doFinal(encryptedBytes), "UTF-8");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		return decodedValue;
 	}
-
 }
