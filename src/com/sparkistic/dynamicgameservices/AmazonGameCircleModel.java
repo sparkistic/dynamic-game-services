@@ -51,7 +51,7 @@ public class AmazonGameCircleModel implements GameServicesModel {
 
 	// list of features your game uses (in this example, achievements and
 	// leaderboards)
-	EnumSet<AmazonGamesFeature> myGameFeatures = EnumSet.of(AmazonGamesFeature.Achievements);
+	EnumSet<AmazonGamesFeature> myGameFeatures = EnumSet.of(AmazonGamesFeature.Achievements, AmazonGamesFeature.Leaderboards);
 
 	public void initialize(Activity activity) {
 		if (activity == null || callback == null || myGameFeatures == null) {
@@ -236,7 +236,7 @@ public class AmazonGameCircleModel implements GameServicesModel {
 				}
 			});
 		}
-		
+
 	}
 
 	@Override
