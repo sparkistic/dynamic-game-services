@@ -365,7 +365,7 @@ public class GoogleGameServicesModel implements GameServicesModel, GameHelper.Ga
 	public void sendScoreToLeaderboard(String leaderboardId, long scoreValue) {
 		try {
 			if (mHelper.getGamesClient().isConnected()) {
-				mHelper.getGamesClient().submitScore(leaderboardId, scoreValue);
+				mHelper.getGamesClient().submitScore(getStringResourceByName(leaderboardId), scoreValue);
 			}
 		} catch (Throwable t) {
 		}		
@@ -375,7 +375,7 @@ public class GoogleGameServicesModel implements GameServicesModel, GameHelper.Ga
 	public void showLeaderboardOverlay(String leaderboardId) {
 		try {
 			if (mHelper.getGamesClient().isConnected()) {
-				baseActivity.startActivityForResult(mHelper.getGamesClient().getLeaderboardIntent(leaderboardId), 100);
+				baseActivity.startActivityForResult(mHelper.getGamesClient().getLeaderboardIntent(getStringResourceByName(leaderboardId)), 100);
 			}
 		} catch (Throwable t) {
 		}		
