@@ -77,6 +77,8 @@ Also inside the `<application>` element, you'll need to add some Amazon boilerpl
 
 To use the library, simply extend the `GameServicesActivity` instead of `Activity` in your activity that first loads. This will automatically do some of the setup work to initialize with Google Play or Amazon game services.
 
+Note, if you are getting linking errors, you may need to reconfigure the build path of DynamicGameServices library to point to your location of GameCircleSDK and google-play-services_lib. Right-click the DynamicGameServices project name and select Build Path->Configure Build Path. On the left pane of the dialog box that pops up, select Android. Scroll all the way down on the right pane to where it says Library. If you see red Xs here, just click each of the problem libraries and remove them. Now click Add and one at a time add these two libraries (GameCircleSDK and google-play-services_lib) back in. Click OK and hopefully peace is restored to Earth.
+
 ### Game services methods
 
 *   `void unlockAchievement(String achievementId)`: unlocks the achievement with the given id (this should match the _name_ field in the ids.xml file). For example to unlock the achievement above use `unlockAchievement("you_escaped_mordor");` 
@@ -97,6 +99,8 @@ You will likely want to locally store whether the user has unlocked your achieve
 *   `int getDecryptedInt(String uniqueKey, String value)`: returns the integer previously encrypted as `value`. Note that if the value cannot be decrypted into a integer, 0 is returned.
 *   `String getDecryptedString(String uniqueKey, String value)`: returns the string previously encrypted as `value`.
 
-## Known issues
+## Known issues / TODOs
 
 *   The internal Google Play services API needs to be updated to the new standard.
+*   Implement more robust data structure for handling abstraction of different manufacturer IDs (ideally something like `<gameservices name="key" amazon="amazon_id" google="google_id" ... />`)
+*   Create version of library for Android Studio / Gradle
