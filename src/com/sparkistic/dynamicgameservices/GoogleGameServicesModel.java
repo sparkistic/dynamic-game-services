@@ -7,12 +7,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.google.android.gms.appstate.AppStateClient;
-import com.google.android.gms.games.GamesClient;
-import com.google.android.gms.plus.PlusClient;
+import com.google.android.gms.games.Games;
 import com.sparkistic.dynamicgameservices.GameHelper.GameHelperListener;
 
-public class GoogleGameServicesModel implements GameServicesModel, GameHelper.GameHelperListener {
+public class GoogleGameServicesModel implements GameServicesModel,
+		GameHelper.GameHelperListener {
 
 	/*
 	 * Copyright (C) 2013 Google Inc.
@@ -30,7 +29,6 @@ public class GoogleGameServicesModel implements GameServicesModel, GameHelper.Ga
 	 * under the License.
 	 */
 
-
 	// The game helper object. This class is mainly a wrapper around this
 	// object.
 	protected GameHelper mHelper;
@@ -45,9 +43,6 @@ public class GoogleGameServicesModel implements GameServicesModel, GameHelper.Ga
 	// Requested clients. By default, that's just the games client.
 	protected int mRequestedClients = CLIENT_GAMES;
 
-	// stores any additional scopes.
-	private String[] mAdditionalScopes;
-
 	protected String mDebugTag = "BaseGameActivity";
 	protected boolean mDebugLog = false;
 	private AlertDialog alertDialog;
@@ -56,14 +51,11 @@ public class GoogleGameServicesModel implements GameServicesModel, GameHelper.Ga
 	protected GoogleGameServicesModel(Activity act) {
 		super();
 		baseActivity = act;
-		mHelper = new GameHelper(act);
+		mHelper = new GameHelper(act, GameHelper.CLIENT_GAMES);
 		if (mHelper == null) {
 			return;
 		}
-		if (mDebugLog) {
-			mHelper.enableDebugLog(mDebugLog, mDebugTag);
-		}
-		mHelper.setup(this, mRequestedClients, mAdditionalScopes);
+		mHelper.setup(this);
 	}
 
 	/**
@@ -89,11 +81,9 @@ public class GoogleGameServicesModel implements GameServicesModel, GameHelper.Ga
 	 *            A combination of the flags CLIENT_GAMES, CLIENT_PLUS and
 	 *            CLIENT_APPSTATE, or CLIENT_ALL to request all available
 	 *            clients.
-	 * @param additionalScopes
 	 */
-	protected void setRequestedClients(int requestedClients, String... additionalScopes) {
+	protected void setRequestedClients(int requestedClients) {
 		mRequestedClients = requestedClients;
-		mAdditionalScopes = additionalScopes;
 	}
 
 	protected void onStart() {
@@ -117,27 +107,6 @@ public class GoogleGameServicesModel implements GameServicesModel, GameHelper.Ga
 		mHelper.onActivityResult(request, response, data);
 	}
 
-	protected GamesClient getGamesClient() {
-		if (mHelper == null) {
-			return null;
-		}
-		return mHelper.getGamesClient();
-	}
-
-	protected AppStateClient getAppStateClient() {
-		if (mHelper == null) {
-			return null;
-		}
-		return mHelper.getAppStateClient();
-	}
-
-	protected PlusClient getPlusClient() {
-		if (mHelper == null) {
-			return null;
-		}
-		return mHelper.getPlusClient();
-	}
-
 	protected boolean isSignedIn() {
 		if (mHelper == null) {
 			return false;
@@ -159,54 +128,11 @@ public class GoogleGameServicesModel implements GameServicesModel, GameHelper.Ga
 		mHelper.signOut();
 	}
 
-	protected void showAlert(String title, String message) {
-		if (mHelper == null) {
-			return;
-		}
-		mHelper.showAlert(title, message);
-	}
-
-	protected void showAlert(String message) {
-		if (mHelper == null) {
-			return;
-		}
-		mHelper.showAlert(message);
-	}
-
-	protected void enableDebugLog(boolean enabled, String tag) {
-		mDebugLog = true;
-		mDebugTag = tag;
-		if (mHelper != null) {
-			mHelper.enableDebugLog(enabled, tag);
-		}
-	}
-
 	protected String getInvitationId() {
 		if (mHelper == null) {
 			return "";
 		}
 		return mHelper.getInvitationId();
-	}
-
-	protected void reconnectClients(int whichClients) {
-		if (mHelper == null) {
-			return;
-		}
-		mHelper.reconnectClients(whichClients);
-	}
-
-	protected String getScopes() {
-		if (mHelper == null) {
-			return "";
-		}
-		return mHelper.getScopes();
-	}
-
-	protected String[] getScopesArray() {
-		if (mHelper == null) {
-			return null;
-		}
-		return mHelper.getScopesArray();
 	}
 
 	protected boolean hasSignInError() {
@@ -228,17 +154,19 @@ public class GoogleGameServicesModel implements GameServicesModel, GameHelper.Ga
 		if (mHelper == null) {
 			return;
 		}
-		mHelper.getGamesClient().connect();
-		mHelper.getGamesClient().setGravityForPopups(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+		mHelper.reconnectClient();
 	}
 
 	@Override
 	public void onSignInFailed() {
+		mHelper.disconnect();
 		((GameHelperListener) baseActivity).onSignInFailed();
 	}
 
 	@Override
 	public void onSignInSucceeded() {
+		Games.setGravityForPopups(mHelper.getApiClient(), Gravity.BOTTOM
+				| Gravity.CENTER_HORIZONTAL);
 		((GameHelperListener) baseActivity).onSignInSucceeded();
 	}
 
@@ -256,8 +184,9 @@ public class GoogleGameServicesModel implements GameServicesModel, GameHelper.Ga
 		if (mHelper == null) {
 			return;
 		}
-		if (mHelper.isSignedIn() && mHelper.getGamesClient().isConnected()) {
-			mHelper.getGamesClient().unlockAchievement(getStringResourceByName(achievementID));
+		if (mHelper.isSignedIn() && mHelper.getApiClient().isConnected()) {
+			Games.Achievements.unlock(mHelper.getApiClient(),
+					getStringResourceByName(achievementID));
 		}
 	}
 
@@ -266,8 +195,9 @@ public class GoogleGameServicesModel implements GameServicesModel, GameHelper.Ga
 		if (mHelper == null) {
 			return;
 		}
-		if (mHelper.isSignedIn() && mHelper.getGamesClient().isConnected()) {
-			baseActivity.startActivityForResult(mHelper.getGamesClient().getAchievementsIntent(), 0);
+		if (mHelper.isSignedIn() && mHelper.getApiClient().isConnected()) {
+			baseActivity.startActivityForResult(Games.Achievements
+					.getAchievementsIntent(mHelper.getApiClient()), 100);
 		} else {
 			showSignInDialog();
 		}
@@ -276,10 +206,12 @@ public class GoogleGameServicesModel implements GameServicesModel, GameHelper.Ga
 	private void showSignInDialog() {
 		try {
 			LayoutInflater inflater = baseActivity.getLayoutInflater();
-			View dialoglayout = inflater.inflate(R.layout.alert_sign_in_dialog, null); // (ViewGroup) baseActivity.getCurrentFocus());
+			View dialoglayout = inflater.inflate(R.layout.alert_sign_in_dialog,
+					null); // (ViewGroup) baseActivity.getCurrentFocus());
 			AlertDialog.Builder builder = new AlertDialog.Builder(baseActivity);
 			builder.setView(dialoglayout);
-			com.google.android.gms.common.SignInButton dialogButton = (com.google.android.gms.common.SignInButton) dialoglayout.findViewById(R.id.alert_sign_in_button);
+			com.google.android.gms.common.SignInButton dialogButton = (com.google.android.gms.common.SignInButton) dialoglayout
+					.findViewById(R.id.alert_sign_in_button);
 			// if button is clicked, close the custom dialog
 			alertDialog = builder.create();
 			dialogButton.setOnClickListener(new View.OnClickListener() {
@@ -297,7 +229,8 @@ public class GoogleGameServicesModel implements GameServicesModel, GameHelper.Ga
 
 	private String getStringResourceByName(String aString) {
 		String packageName = baseActivity.getPackageName();
-		int resId = baseActivity.getResources().getIdentifier(aString, "string", packageName);
+		int resId = baseActivity.getResources().getIdentifier(aString,
+				"string", packageName);
 		return baseActivity.getString(resId);
 	}
 
@@ -317,14 +250,11 @@ public class GoogleGameServicesModel implements GameServicesModel, GameHelper.Ga
 	@Override
 	public void signIn() {
 		if (mHelper == null) {
-			mHelper = new GameHelper(baseActivity);
+			mHelper = new GameHelper(baseActivity, mRequestedClients);
 			if (mHelper == null) {
 				return;
 			}
-			if (mDebugLog) {
-				mHelper.enableDebugLog(mDebugLog, mDebugTag);
-			}
-			mHelper.setup(this, mRequestedClients, mAdditionalScopes);
+			mHelper.setup(this);
 		}
 		beginUserInitiatedSignIn();
 	}
@@ -339,12 +269,14 @@ public class GoogleGameServicesModel implements GameServicesModel, GameHelper.Ga
 	}
 
 	@Override
-	public void unlockAchievement(String achievementID, int count, int outOfHowMany) {
+	public void unlockAchievement(String achievementID, int count,
+			int outOfHowMany) {
 		if (mHelper == null) {
 			return;
 		}
-		if (mHelper.isSignedIn() && mHelper.getGamesClient().isConnected()) {
-			mHelper.getGamesClient().incrementAchievement(getStringResourceByName(achievementID), count);
+		if (mHelper.isSignedIn() && mHelper.getApiClient().isConnected()) {
+			Games.Achievements.increment(mHelper.getApiClient(),
+					getStringResourceByName(achievementID), count);
 		}
 
 	}
@@ -356,7 +288,7 @@ public class GoogleGameServicesModel implements GameServicesModel, GameHelper.Ga
 		}
 		if (mHelper.hasSignInError()) {
 			// mHelper.showFailureDialog();
-			mHelper.killConnections();
+			mHelper.disconnect();
 			mHelper = null;
 		}
 	}
@@ -364,21 +296,25 @@ public class GoogleGameServicesModel implements GameServicesModel, GameHelper.Ga
 	@Override
 	public void sendScoreToLeaderboard(String leaderboardId, long scoreValue) {
 		try {
-			if (mHelper.getGamesClient().isConnected()) {
-				mHelper.getGamesClient().submitScore(getStringResourceByName(leaderboardId), scoreValue);
+			if (mHelper.getApiClient().isConnected()) {
+				Games.Leaderboards.submitScore(mHelper.getApiClient(),
+						getStringResourceByName(leaderboardId), scoreValue);
 			}
 		} catch (Throwable t) {
-		}		
+		}
 	}
 
 	@Override
 	public void showLeaderboardOverlay(String leaderboardId) {
 		try {
-			if (mHelper.getGamesClient().isConnected()) {
-				baseActivity.startActivityForResult(mHelper.getGamesClient().getLeaderboardIntent(getStringResourceByName(leaderboardId)), 100);
+			if (mHelper.getApiClient().isConnected()) {
+				baseActivity.startActivityForResult(Games.Leaderboards
+						.getLeaderboardIntent(mHelper.getApiClient(),
+								getStringResourceByName(leaderboardId)), 100);
+			} else {
+				showSignInDialog();
 			}
 		} catch (Throwable t) {
-		}		
+		}
 	}
-
 }
