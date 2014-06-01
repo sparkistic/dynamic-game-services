@@ -101,6 +101,5 @@ You will likely want to locally store whether the user has unlocked your achieve
 
 ## Known issues / TODOs
 
-*   The internal Google Play services API needs to be updated to the new standard.
 *   Implement more robust data structure for handling abstraction of different manufacturer IDs (ideally something like `<gameservices name="key" amazon="amazon_id" google="google_id" ... />`)
 *   Create version of library for Android Studio / Gradle
